@@ -1,0 +1,12 @@
+/* ------------------ Global ------------------ */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+p {
+  margin: 5px;
+}

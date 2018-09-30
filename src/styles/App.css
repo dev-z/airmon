@@ -1,0 +1,283 @@
+/* ---------------- Base Layout ---------------- */
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 1px;
+  text-align: center;
+  color: white;
+  height: 9vh;
+}
+
+footer {
+  background-color: #666;
+  padding: 1px;
+  text-align: center;
+  color: white;
+}
+
+nav {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background: #ccc;
+  padding: 20px;
+  overflow: auto;
+}
+
+.main {
+  display: -webkit-flex;
+  display: flex;
+  height: 91vh;
+}
+
+.content-area {
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+  background: #f1f1f1;
+}
+.awesome-text {
+  font-size: 25px;
+  text-align: center;
+  padding: 15px 25px;
+  color: rgba(0, 0, 0, 0.5);
+}
+/* ---------------- Search Details ---------------- */
+.search-details {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  background: #e7e7e7;
+  padding: 10px;
+}
+
+.path {
+  display: flex;
+  flex: 3;
+  align-items: center;
+}
+
+.path > p {
+  font-size: 2em;
+}
+
+.dates {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+}
+
+/* ---------------- Flights Area ---------------- */
+.flights-display {
+  display: flex;
+  flex-direction: row;
+}
+
+.flights {
+  padding: 10px;
+  height: 82vh;
+  overflow: auto;
+  flex: 1
+}
+
+.flight {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  background-color:white;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 163px;
+}
+
+.fl-details {
+  flex: 2;
+}
+
+.fl-img {
+  flex: 1;
+}
+
+.price {
+  font-size: 2em;
+}
+
+.timings {
+  display: flex;
+  flex-direction: row;
+}
+
+.timings > .toward {
+  flex: 1;
+}
+
+.timings > .return {
+  flex: 1;
+}
+
+.fl-logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.fl-logo-container {
+  /* not growable (0), not shrinkable (0), and with an initial length of 200 pixels */
+  flex: 0 0 150px;
+}
+
+.fl-logo-container > .img-area {
+  height: 100px;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.fl-logo-container > .img-area > img {
+  height: 90px;
+  width: auto;
+}
+
+.fl-logo-container > .btn-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------------- Custom Button ---------------- */
+
+.btn {
+  outline: none;
+  padding: 15px;
+  text-align: center;
+  background: rgb(77, 135, 235);
+  border: none;
+  color: #f4f4f4;
+  letter-spacing: 1px;
+  text-shadow: 0;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.btn:hover {
+  color: white;
+  background: rgb(48, 109, 216);
+}
+.btn:active {
+  letter-spacing: 2px;
+  background: rgb(48, 109, 216);
+}
+
+.btn.active {
+  letter-spacing: 2px;
+  background: rgb(48, 109, 216);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-rounded {
+  border-radius: 10px;
+}
+
+/* ---------------- Side nav ---------------- */
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: none;
+  background-color:transparent;
+  display: flex;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  flex: 1;
+  transition: 0.3s;
+}
+
+.btn-l {
+  border-top-left-radius: 10px;
+}
+
+.btn-r {
+  border-top-right-radius: 10px;
+}
+
+/* Style the tab content */
+.tabcontent {
+  padding: 10px;
+  border: none;
+  background-color: white;
+  border-radius: 0 0 10px 10px;
+}
+
+.tabcontent.hidden {
+  display: none;
+}
+
+.refine-area {
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: white;
+}
+
+.input-error {
+  font-size: 12px;
+  color: red;
+}
+/* ---------------- custom input ---------------- */
+.form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #666;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+/* Slider */
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  margin: 25px 0;
+  border-radius: 5px;   
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: rgb(48, 109, 216);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgb(48, 109, 216);
+  cursor: pointer;
+}

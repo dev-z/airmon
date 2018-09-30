@@ -1,0 +1,37 @@
+[
+  {
+    "code": "AMD",
+    "city": "Ahmedabad",
+    "name": "Ahmedabad Airport"
+  },
+  {
+    "code": "BLR",
+    "city": "Bengaluru",
+    "name": "Bengaluru International Airport"
+  },
+  {
+    "code": "BOM",
+    "city": "Mumbai",
+    "name": "Chhatrapati Shivaji International Airport"
+  },
+  {
+    "code": "HYD",
+    "city": "Hyderabad",
+    "name": "Hyderabad International Airport"
+  },
+  {
+    "code": "DEL",
+    "city": "New Delhi",
+    "name": "Indira Gandhi International Airport"
+  },
+  {
+    "code": "CCU",
+    "city": "Kolkata",
+    "name": "Netaji Subhash Chandra Bose International Airport"
+  },
+  {
+    "code": "PNQ",
+    "city": "Pune",
+    "name": "Pune Airport"
+  }
+]
