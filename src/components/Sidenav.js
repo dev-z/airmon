@@ -1,11 +1,13 @@
+// Core imports
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-const DATEPICKER_FORMAT = 'YYYY-MM-DD'
+// Constants
+const DATEPICKER_FORMAT = 'YYYY-MM-DD';
 
+// Class definition
 class SideNav extends Component {
-
   constructor(props) {
     super(props);
     const minDate = moment().format(DATEPICKER_FORMAT);
@@ -20,57 +22,79 @@ class SideNav extends Component {
       minDate,
       priceLow: 0,
       priceHigh: 15000,
-    }
+    };
   }
 
-  getAirportsOptions = (airports = []) => {
-    return airports.map((each) => {
-      const codeCity = `${each.code} ${each.city}`;
-      return <option value={codeCity} key={each.code}></option>
-    });
-  }
+  /**
+   * Takes in the array of airports object and converts them to a html <options /> node.
+   * @param {Array} airports Array of airport data.
+   * @returns {Array}
+   */
+  getAirportsOptions = (airports = []) => airports.map((each) => {
+    const codeCity = `${each.code} ${each.city}`;
+    return <option value={codeCity} key={each.code} />;
+  });
 
+  /**
+   * Executes when user given any input.
+   */
   handleInputChange = (event) => {
-    const target = event.target;
+    const { target } = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const { name } = target;
 
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
+  /**
+   * Executes when user changes the "sort by price" dropdown.
+   */
   handleSort = (event) => {
-    const target = event.target;
-    const {value, name } = target;
-    this.props.onSort(name, value);
+    const { target } = event;
+    const { onSort } = this.props;
+    const { value, name } = target;
+    onSort(name, value);
   }
 
+  /**
+   * Executes when user interacts with the price refining sliders.
+   */
   onPriceRefine = (event) => {
-    const target = event.target;
+    const { target } = event;
+    const { onPriceRefine } = this.props;
     const { value, name } = target;
     const val = Number(value);
     this.setState({
-      [name]: val
+      [name]: val,
     });
-    this.props.onPriceRefine(name, val);
+    onPriceRefine(name, val);
   }
 
+  // Handles the tab selection logic.
   selectTab = (index) => {
     this.setState({ activeTab: index });
   }
 
+  // Generates and returns the classes for the tabs for properly highlighting the active tab.
   getTabClasses = (activeTab) => {
     // Highlight the active tab
     const tabClasses = [
       'tablinks btn btn-l',
       'tablinks btn btn-r',
-    ]
+    ];
     tabClasses[activeTab] += ' active';
     return tabClasses;
   }
 
+  /**
+   * Validates the search criteria given by the user.
+   * @param {Object} userInputs The inputs given by the user.
+   * @returns {Object} error object, if any.
+   */
   validate = (userInputs) => {
+    const { airports } = this.props;
     const {
       origin,
       destination,
@@ -79,7 +103,7 @@ class SideNav extends Component {
       passengers,
       activeTab,
     } = userInputs;
-    const airportCodes = this.props.airports.map(each => each.code);
+    const airportCodes = airports.map(each => each.code);
     const errors = {};
     // 1. Check origin is one of available airports
     if (origin) {
@@ -112,8 +136,8 @@ class SideNav extends Component {
     if (departureDate && departureDateMoment.isValid()) {
       // Check if date is in past
       const diff = today.diff(departureDate, 'days', true);
-      if ( diff >= 1) {
-        errors.departureDate = 'Departure date cannot be in past'
+      if (diff >= 1) {
+        errors.departureDate = 'Departure date cannot be in past';
       }
     } else {
       errors.departureDate = 'Invalid date';
@@ -124,12 +148,12 @@ class SideNav extends Component {
       // Check if date is in past
       const diff = today.diff(returnDate, 'days', true);
       if (diff >= 1) {
-        errors.returnDate = 'Return date cannot be in past'
+        errors.returnDate = 'Return date cannot be in past';
       }
       // Check if return date is less than departure date
       const diff2 = returnDateMoment.diff(departureDateMoment, 'days', true);
       if (diff2 < 0) {
-        errors.returnDate = 'Return date cannot be less than departure date'
+        errors.returnDate = 'Return date cannot be less than departure date';
       }
     } else if (activeTab === 1) {
       errors.returnDate = 'Invalid date';
@@ -138,39 +162,56 @@ class SideNav extends Component {
     if (passengers <= 0) {
       errors.passengers = 'Passengers cannot be less than 1';
     }
-
+    // iF errors object has field set, return the errors object,
+    // otherwise return null.
     if (Object.keys(errors).length) {
       return errors;
     }
     return null;
   }
 
+  /**
+   * Executes when the user clicks on search button.
+   */
   search = () => {
+    const {
+      origin,
+      destination,
+      departureDate,
+      returnDate,
+      passengers,
+      activeTab,
+    } = this.state;
+    const { onSearch } = this.props;
+    // Validate the user input
     const errors = this.validate(this.state);
+    // If errors are found on validation,
     if (errors) {
+      // set the errors object in state,
       this.setState({ errors });
       return;
     }
-    // Reset the errors object
-    this.setState({ errors: {}});
-    const originCode = this.state.origin.split(' ')[0];
-    const destinationCode = this.state.destination.split(' ')[0];
+    // otherwise, reset the errors object.
+    this.setState({ errors: {} });
+    const originCode = origin.split(' ')[0];
+    const destinationCode = destination.split(' ')[0];
     const filters = {
       origin: this.findAirportByCode(originCode),
       destination: this.findAirportByCode(destinationCode),
-      departureDate: this.convertToISOTime(this.state.departureDate),
-      returnDate: this.convertToISOTime(this.state.returnDate),
-      passengers: this.state.passengers,
-      type: (this.state.activeTab === 1) ? 'return' : 'oneway',
-    }
-    if (this.state.activeTab === 0) {
+      departureDate: this.convertToISOTime(departureDate),
+      returnDate: this.convertToISOTime(returnDate),
+      passengers,
+      type: (activeTab === 1) ? 'return' : 'oneway',
+    };
+    if (activeTab === 0) {
       filters.returnDate = null;
     }
-    this.props.onSearch(filters);
+    onSearch(filters);
   }
 
   findAirportByCode = (code) => {
-    return this.props.airports.find(each => each.code === code);
+    const { airports } = this.props;
+    return airports.find(each => each.code === code);
   }
 
   convertToISOTime = (dtStr) => {
@@ -178,8 +219,16 @@ class SideNav extends Component {
   }
 
   render() {
-    const { activeTab, errors, minDate, priceLow, priceHigh } = this.state;
-    const airportsAvailable = this.getAirportsOptions(this.props.airports);
+    const {
+      activeTab,
+      errors,
+      minDate,
+      priceLow,
+      priceHigh,
+      passengers,
+    } = this.state;
+    const { airports } = this.props;
+    const airportsAvailable = this.getAirportsOptions(airports);
     const tabClasses = this.getTabClasses(activeTab);
     return (
       <nav>
@@ -187,8 +236,8 @@ class SideNav extends Component {
         <div className="search-area">
           {/* Tab links */}
           <div className="tab">
-            <button className={tabClasses[0]} onClick={() => this.selectTab(0)}>One way</button>
-            <button className={tabClasses[1]} onClick={() => this.selectTab(1)}>Return</button>
+            <button className={tabClasses[0]} onClick={() => this.selectTab(0)} type="button">One way</button>
+            <button className={tabClasses[1]} onClick={() => this.selectTab(1)} type="button">Return</button>
           </div>
 
           {/* </div> Tab content */}
@@ -198,7 +247,8 @@ class SideNav extends Component {
               <input
                 type="text"
                 className="form-control"
-                name="origin" list="origins"
+                name="origin"
+                list="origins"
                 placeholder="Enter origin city"
                 onChange={this.handleInputChange}
               />
@@ -233,7 +283,7 @@ class SideNav extends Component {
               />
               {errors.departureDate && <p className="input-error">{errors.departureDate}</p>}
               <br />
-              {activeTab === 1 &&
+              {activeTab === 1 && (
                 <div>
                   <label>Return Date:</label>
                   <input
@@ -248,7 +298,7 @@ class SideNav extends Component {
                   {errors.returnDate && <p className="input-error">{errors.returnDate}</p>}
                   <br />
                 </div>
-              }
+              )}
               <label>Number of Passengers:</label>
               <input
                 type="number"
@@ -257,11 +307,12 @@ class SideNav extends Component {
                 placeholder="Passengers"
                 min="1"
                 max="100"
-                defaultValue={this.state.passengers}
+                defaultValue={passengers}
                 onChange={this.handleInputChange}
               />
               {errors.passengers && <p className="input-error">{errors.passengers}</p>}
-              <br /><br />
+              <br />
+              <br />
               <button className="btn btn-rounded btn-block" type="button" onClick={this.search}>Search</button>
             </form>
           </div>
@@ -270,8 +321,12 @@ class SideNav extends Component {
         {/* refine-area */}
         <div className="refine-area">
           <label><strong>Refine flight search</strong></label>
-          <br /><br />
-          <label>Price lower limit: {priceLow}</label>
+          <br />
+          <br />
+          <label>
+            Price lower limit:&nbsp;
+            {priceLow}
+          </label>
           <input
             type="range"
             className="slider"

@@ -5,7 +5,7 @@ const flightRecords = require('./../data/flights.json');
 const airportRecords = require('./../data/airports.json');
 
 // Uncomment this function to enable filter by dates
-/* 
+/*
 function getDatefromISODate(dtStr) {
   return moment(dtStr, moment.ISO_8601).format('YYYY-MM-DD');
 }
@@ -20,7 +20,8 @@ function filterFlights(flights, filters = {}) {
   }
   // by destination
   if (filters.destination) {
-    filteredFlights = filteredFlights.filter(each => each.destination.airportId === filters.destination.code);
+    filteredFlights = filteredFlights
+      .filter(each => each.destination.airportId === filters.destination.code);
   }
   // by departure date for forward flights
   /* Uncomment this code to enable filter by departure date
@@ -48,7 +49,7 @@ function filterFlights(flights, filters = {}) {
 
 class MockDB {
   constructor(flights, airports) {
-    this.document = { flights, airports }
+    this.document = { flights, airports };
   }
 
   getFlights(filters) {
@@ -58,10 +59,8 @@ class MockDB {
     return filterFlights(this.document.flights, filters);
   }
 
-  getAirports(filters) {
-    if (!filters) {
-      return this.document.airports;
-    }
+  getAirports() {
+    return this.document.airports;
   }
 }
 

@@ -25,27 +25,27 @@ const fs = require('fs');
 const operators = [
   {
     id: 'AI',
-    name: 'Air India'
+    name: 'Air India',
   },
   {
     id: 'AV',
-    name: 'Air Vistara'
+    name: 'Air Vistara',
   },
   {
     id: 'JA',
-    name: 'Jet Airways'
+    name: 'Jet Airways',
   },
   {
     id: 'IG',
-    name: 'Indigo'
+    name: 'Indigo',
   },
   {
     id: 'GO',
-    name: 'Go Air'
+    name: 'Go Air',
   },
   {
     id: 'SP',
-    name: 'SpiceJet'
+    name: 'SpiceJet',
   },
 ];
 
@@ -70,33 +70,33 @@ for (let i = 0; i < RECORDS_COUNT; i += 1) {
   }
   const originAirport = airports[originIndex];
   const destAirport = airports[destIndex];
-  
+
   const id = i + 1;
 
-  let record = {
+  const record = {
     id,
     flId: `${operator.id}-${id}`,
     airlineName: operator.name,
     price: {
       value: getRandomInt(9000) + 1500,
       currency: 'INR',
-      currencySymbol: 'Rs.'
+      currencySymbol: 'Rs.',
     },
     origin: {
       airportId: originAirport,
-      departure: "2018-09-29T08:00:00.525Z"
+      departure: '2018-09-29T08:00:00.525Z',
     },
     destination: {
       airportId: destAirport,
-      arrival: "2018-09-29T10:00:00.525Z"
-    }
+      arrival: '2018-09-29T10:00:00.525Z',
+    },
   };
   records.push(record);
 }
 
 const dataToWrite = JSON.stringify(records, null, 2);
-
-fs.appendFile('sample.json', dataToWrite, function (err) {
+/* eslint-disable no-console */
+fs.appendFile('sample.json', dataToWrite, (err) => {
   if (err) {
     console.log('Error');
     console.log(err);
@@ -104,3 +104,4 @@ fs.appendFile('sample.json', dataToWrite, function (err) {
     console.log('Saved!');
   }
 });
+/* eslint-enable no-console */

@@ -1,3 +1,4 @@
+// Core imports
 import React, { Component } from 'react';
 import './styles/App.css';
 // Custom components
@@ -9,10 +10,11 @@ import Footer from './components/Footer';
 
 // Mock a DB
 import dbInstance from './utils/mockdb';
+
+// Fetch all airports data
 const airportsAvailable = dbInstance.getAirports();
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -23,12 +25,16 @@ class App extends Component {
       sort: {
         price: 'asc',
       },
-      refine: {}
-    }
+      refine: {},
+    };
   }
 
+  /**
+   * Executes when usere clicks on the search button and all inputs are valid.
+   * @param {Object} filters
+   */
   onSearch = (filters = {}) => {
-    // Make a copy of filters to avoid mutating data
+    // Make a copy of filters input to avoid mutating data
     const forwardFilters = JSON.parse(JSON.stringify(filters));
     forwardFilters.trip = 'forward';
     const flightsForward = dbInstance.getFlights(forwardFilters);
@@ -43,10 +49,10 @@ class App extends Component {
         passengers: filters.passengers,
         type: filters.type,
         trip: 'return',
-      }
+      };
       flightsReturn = dbInstance.getFlights(returnFilters);
     }
-    
+
     this.setState({
       filters,
       flightsForward,
@@ -55,6 +61,9 @@ class App extends Component {
     });
   }
 
+  /**
+   * Executes when user selects an option from "Sort by price" dropdown.
+   */
   onSort = (name, value) => {
     this.setState((prevState) => {
       const s = { ...prevState.sort };
@@ -63,6 +72,9 @@ class App extends Component {
     });
   }
 
+  /**
+   * Executes when user adjusts the price refining sliders
+   */
   onPriceRefine = (name, value) => {
     this.setState((prevState) => {
       const oldRefine = { ...prevState.refine };
@@ -72,7 +84,14 @@ class App extends Component {
   }
 
   render() {
-    const { filters, flightsForward, flightsReturn, sort, refine, isPristine } = this.state;
+    const {
+      filters,
+      flightsForward,
+      flightsReturn,
+      sort,
+      refine,
+      isPristine,
+    } = this.state;
     return (
       <div className="App">
         <Header />
@@ -86,11 +105,15 @@ class App extends Component {
           />
           {/* content-area */}
           <section className="content-area">
-            <SearchDetails details={filters}/>
+            <SearchDetails details={filters} />
             <div className="flights-display">
-              <Flights flightsAvailable={flightsForward} sort={sort} refine={refine} isPristine={isPristine}/>
-              {filters.type === 'return' &&
-                <Flights flightsAvailable={flightsReturn} sort={sort} refine={refine} isPristine={isPristine}/>
+              <Flights
+                flightsAvailable={flightsForward}
+                sort={sort}
+                refine={refine}
+                isPristine={isPristine}
+              />
+              {filters.type === 'return' && <Flights flightsAvailable={flightsReturn} sort={sort} refine={refine} isPristine={isPristine} />
               }
             </div>
           </section>
