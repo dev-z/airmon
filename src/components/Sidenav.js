@@ -203,20 +203,27 @@ class SideNav extends Component {
       passengers,
       type: (activeTab === 1) ? 'return' : 'oneway',
     };
+    // Reomve the default values if return tab is not active.
     if (activeTab === 0) {
       filters.returnDate = null;
     }
     onSearch(filters);
   }
 
+  /**
+   * Takes in the airport code and returns the airport object with matching code.
+   * @param {string} code Airport code. example 'DEL'.
+   * @returns {Object}
+   */
   findAirportByCode = (code) => {
     const { airports } = this.props;
     return airports.find(each => each.code === code);
   }
 
-  convertToISOTime = (dtStr) => {
-    return moment(dtStr, DATEPICKER_FORMAT).toISOString();
-  }
+  /**
+   * Converts time to ISO_8601 format
+   */
+  convertToISOTime = dtStr => moment(dtStr, DATEPICKER_FORMAT).toISOString();
 
   render() {
     const {
@@ -337,7 +344,10 @@ class SideNav extends Component {
             defaultValue={0}
             onChange={this.onPriceRefine}
           />
-          <label>Price upper limit: {priceHigh}</label>
+          <label>
+            Price upper limit:&nbsp;
+            {priceHigh}
+          </label>
           <input
             type="range"
             className="slider"
@@ -364,11 +374,11 @@ SideNav.propTypes = {
   onSearch: PropTypes.func.isRequired,
   onSort: PropTypes.func,
   onPriceRefine: PropTypes.func,
-}
+};
 
 SideNav.defaultProps = {
   onSort: () => null,
   onPriceRefine: () => null,
-}
+};
 
 export default SideNav;

@@ -58,3 +58,19 @@ Run this command to get a full list of the options available:
 ```sh
 serve -h
 ```
+
+## Linting ##
+
+This project follows eslint configured to use Airbnb's JS/React styleguide.
+
+You should have [ESLint running in your editor](http://eslint.org/docs/user-guide/integrations.html), and it will highlight anything doesn't conform to this project's style guide. This project uses the base Airbnb JS style guide.
+
+> Please do not ignore any linting errors, as they are meant to **help** you and to ensure a clean and simple code base.
+
+To use linting, please ensure that you have all the dev-dependencies installed for this project.
+* VS Code - Install the ESLint plugin by Dirk Baeumer.
+* Sublime Text 3 - https://github.com/roadhump/SublimeLinter-eslint
+* Manually: 
+``` bash
+npm run lint
+```
